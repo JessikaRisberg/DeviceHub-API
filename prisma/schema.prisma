@@ -11,3 +11,33 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+
+  devices Device[]
+}
+
+model Device {
+  id        Int      @id @default(autoincrement())
+  name      String
+  deviceId  String   @unique
+  createdAt DateTime @default(now())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  measurements Measurement[]
+}
+
+model Measurement {
+  id        Int      @id @default(autoincrement())
+  value     Float
+  timestamp DateTime @default(now())
+
+  deviceId Int
+  device   Device @relation(fields: [deviceId], references: [id])
+}
