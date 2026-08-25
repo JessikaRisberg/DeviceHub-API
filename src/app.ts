@@ -13,7 +13,9 @@ app.use(express.json());
 app.get("/api/health", (_req, res) => {
     res.json({
         status: "ok",
-        service: "DeviceHub API"
+        service: "DeviceHub API",
+        version: "1.0.0",
+        environment: process.env.NODE_ENV ?? "development",
     });
 });
 
